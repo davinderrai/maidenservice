@@ -1,16 +1,11 @@
 pipeline {
-  agent {
-    node {
-      label 'master'
-    }
-
-  }
+  agent any
   stages {
     stage('Build') {
       steps {
         echo 'Build from github'
         git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'master', changelog: true, credentialsId: 'davinderrai')
-        node(label: 'alpha')
+        node(label: 'master')
       }
     }
     stage('Test') {
