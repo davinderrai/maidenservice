@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.elevatedemo</groupId>
     <artifactId>maidenservice</artifactId>
-    <version>0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>maidenservice</name>
     <description>Demo service for Docker Swarm</description>
 
@@ -37,6 +37,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+	<dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-release-plugin</artifactId>
+    <version>2.4.2</version>
+</dependency>
+
     </dependencies>
 
     <build>
