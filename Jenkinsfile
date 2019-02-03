@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Build from github'
-        git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'master', changelog: true, credentialsId: 'davinderrai')
+        git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'devops', changelog: true, credentialsId: 'davinderrai')
         sh 'mvn -B -DskipTests clean package'
       }
     }
