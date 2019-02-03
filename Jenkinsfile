@@ -3,38 +3,53 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'Build from github'
+        echo 'Build Phase Started :: Fetching code from Github :: ...'
         git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'devops', changelog: true, credentialsId: 'davinderrai')
-        sh 'mvn clean test package'
+        echo 'Build Phase :: Compile Code :: ...'
+        sh 'mvn compile'
+        echo 'Build Phase :: Package :: ...'
+        sh 'mvn clean package'
       }
     }
     stage('Test') {
       parallel {
         stage('Unit Test') {
           steps {
-            echo 'Run Unit Test'
+            echo 'Test Phase Started :: Unit Test Code :: ...'
+            sh 'mvn test'
+            echo 'Test Phase :: Integration Testing :: ...'
           }
         }
         stage('Static Code Analysis') {
           steps {
-            echo 'Do Code Analysis through SonarCube'
+            echo 'Test Phase :: Code Analysis :: ...'
           }
         }
       }
     }
     stage('Acceptance') {
-      steps {
-        echo 'Do Acceptance testing using Postman/Newman'
+      parallel {
+        stage('API Test') {
+          steps {
+            echo 'Aceeptance Phase Started :: API Test :: ...'
+          }
+        }
+        stage('UI Test') {
+          steps {
+            echo 'Acceptance Phase Started :: UI Test :: ...'
+          }
+        }
       }
     }
     stage('Register') {
       steps {
-        echo 'Register Image'
+        echo 'Register Phase Started :: Build docker image :: ...'
+        echo 'Register Phase :: Push docker image :: ...'
       }
     }
     stage('Deploy') {
       steps {
-        echo 'Deploy on Swarm'
+        echo 'Deploy Phase Started :: Deploy Service on Swarm :: ...'
       }
     }
   }
