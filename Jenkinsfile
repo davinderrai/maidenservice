@@ -5,6 +5,7 @@ pipeline {
       steps {
         echo 'Build from github'
         git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'master', changelog: true, credentialsId: 'davinderrai')
+        sh 'sh \'mvn clean -Dmaven.test.failure.ignore=true package\' '
       }
     }
     stage('Test') {
