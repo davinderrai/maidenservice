@@ -15,8 +15,11 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <docker.skip>true</docker.skip>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <docker.repository>docker.io</docker.repository>
+        <docker.image.prefix>davinderrai</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -63,7 +66,47 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>tag-image-version</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${docker.image.prefix}/${project.artifactId}</image>
+                            <newName>docker.io/${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+                            <serverId>docker-hub</serverId>
+                            <pushImage>true</pushImage>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tag-image-latest</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${docker.image.prefix}/${project.artifactId}</image>
+                            <newName>docker.io/${docker.image.prefix}/${project.artifactId}:latest</newName>
+                            <serverId>docker-hub</serverId>
+                            <pushImage>true</pushImage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
+
     </build>
 
     <repositories>
@@ -73,5 +116,4 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
-
 </project>
