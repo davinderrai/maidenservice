@@ -44,7 +44,7 @@ pipeline {
     stage('Register') {
       steps {
         echo 'Register Phase Started :: Build docker image :: ...'
-        sh 'mvn clean docker:build'
+        sh 'mvn clean docker:build -X'
         echo 'Register Phase :: Push docker image :: ...'
         sh 'mvn clean docker:build -DskipDockerBuild -DpushImageTag -DdockerImageTags=latest,1.0'
       }
