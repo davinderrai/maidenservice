@@ -8,7 +8,7 @@ pipeline {
         echo 'Build Phase :: Compile Code :: ...'
         sh 'mvn compile'
         echo 'Build Phase :: Package :: ...'
-        sh 'mvn clean package'
+        sh 'mvn clean package -DskipTests'
       }
     }
     stage('Test') {
