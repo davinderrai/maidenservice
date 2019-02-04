@@ -74,6 +74,8 @@
                 <configuration>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <serverId>docker-hub</serverId>
+                    <registryUrl>${docker.repository}</registryUrl>
                 </configuration>
                 <executions>
                     <execution>
@@ -84,7 +86,7 @@
                         </goals>
                         <configuration>
                             <image>${docker.image.prefix}/${project.artifactId}</image>
-                            <newName>docker.io/${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+                            <newName>${docker.repository}/${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
                             <serverId>docker-hub</serverId>
                             <pushImage>true</pushImage>
                         </configuration>
@@ -97,7 +99,7 @@
                         </goals>
                         <configuration>
                             <image>${docker.image.prefix}/${project.artifactId}</image>
-                            <newName>docker.io/${docker.image.prefix}/${project.artifactId}:latest</newName>
+                            <newName>${docker.repository}/${docker.image.prefix}/${project.artifactId}:latest</newName>
                             <serverId>docker-hub</serverId>
                             <pushImage>true</pushImage>
                         </configuration>
