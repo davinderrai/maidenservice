@@ -7,7 +7,7 @@ pipeline {
         git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'devops', changelog: true, credentialsId: 'davinderrai')
         echo 'Build Phase :: Compile Code :: ...'
         sh 'mvn compile'
-        echo 'Build Phase :: Package :: ...'
+        echo 'Build Package ...'
         sh 'mvn clean package -DskipTests'
       }
     }
