@@ -7,8 +7,8 @@ pipeline {
         git(url: 'https://github.com/davinderrai/maidenservice.git', branch: 'devops', changelog: true, credentialsId: 'davinderrai')
         echo 'Build Phase :: Compile Code :: ...'
         sh 'mvn compile'
-        echo 'Build Phase :: Package :: ...'
-        sh 'mvn clean package'
+        echo 'Build Package ...'
+        sh 'mvn clean package -DskipTests'
       }
     }
     stage('Test') {
@@ -27,11 +27,23 @@ pipeline {
         }
       }
     }
+    stage('Register') {
+      steps {
+        echo 'Register Phase Started :: Build docker image :: ...'
+        sh 'mvn clean docker:build -DpushImageTag -DdockerImageTags=latest,1.0'
+        echo 'Register Phase :: Push docker image :: ...'
+      }
+    }
+    stage('Stage') {
+      steps {
+        echo 'Deploy Phase Started :: Deploy Service on Swarm :: ...'
+      }
+    }
     stage('Acceptance') {
       parallel {
         stage('API Test') {
           steps {
-            echo 'Aceeptance Phase Started :: API Test :: ...'
+            echo 'Acceptance Phase Started :: API Test :: ...'
           }
         }
         stage('UI Test') {
@@ -41,15 +53,9 @@ pipeline {
         }
       }
     }
-    stage('Register') {
+    stage('Promote') {
       steps {
-        echo 'Register Phase Started :: Build docker image :: ...'
-        echo 'Register Phase :: Push docker image :: ...'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploy Phase Started :: Deploy Service on Swarm :: ...'
+        echo 'Promote Code Branch'
       }
     }
   }
