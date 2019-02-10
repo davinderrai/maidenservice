@@ -12,6 +12,7 @@ pipeline {
           error 'some error occured'
         }
 
+        error 'error 1'
       }
     }
   }
