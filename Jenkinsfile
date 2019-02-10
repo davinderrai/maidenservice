@@ -1,10 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('Initialize') {
+    stage('stage1') {
       steps {
-        echo 'Hello Jenkins world'
-        slackSend(channel: 'dealroombuild', color: 'red', failOnError: true, message: 'Demo msg', teamDomain: 'dealroom2.slack.com')
+        echo 'hello stage1'
+      }
+    }
+    stage('stage 2') {
+      steps {
+        catchError() {
+          error 'some error occured'
+        }
+
       }
     }
   }
