@@ -8,12 +8,13 @@ pipeline {
     }
     stage('stage 2') {
       steps {
-        catchError() {
-          error 'some error occured'
-        }
-
-        error 'error 1'
+        echo 'hello stage2'
       }
+      post {
+                always {
+                    echo 'post action always'
+                }
+      }	
     }
   }
 }
